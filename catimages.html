@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cat Image Generator</title>
+  </head>
+  <body>
+    <h1>Cat Image Generator</h1>
+    <label for="num-cats">Number of cats:</label>
+    <select id="num-cats">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select>
+    <button id="go-button">Go!</button>
+    <div id="cat-images"></div>
+    <script>
+      const goButton = document.getElementById("go-button");
+      const catImages = document.getElementById("cat-images");
+
+      goButton.addEventListener("click", () => {
+        // Get the number of cats from the select menu
+        const numCats = document.getElementById("num-cats").value;
+
+        // Get a random cat image URL from the API for each cat
+        const catImageUrl = "https://api.thecatapi.com/v1/images/search?limit=" + numCats;
+
+        // Fetch the images
+        fetch(catImageUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            // Clear any existing cat images
+            catImages.innerHTML = "";
+
+            // Add the new cat images to the page
+            data.forEach((cat, index) => {
+              if (index < numCats) {
+                const catImage = document.createElement("img");
+                catImage.src = cat.url;
+                catImage.width = 250;
+                catImage.height = 250;
+                catImages.appendChild(catImage);
+              }
+            });
+          });
+      });
+    </script>
+  </body>
+</html>
